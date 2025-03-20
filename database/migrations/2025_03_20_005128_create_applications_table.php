@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('job_title');
             $table->string('company_name');
-            $table->foreignId('employement_type_id')->constrained('employement_types');
+            $table->foreignId('employment_type_id')->constrained('employment_types');
 
             $table->string('applicant_names');
             $table->string('applicant_last_names');
@@ -30,7 +30,7 @@ return new class extends Migration
             $table->integer('cv_pages_count');
 
             $table->decimal('monthly_expected_salary', 12, 2);
-            $table->foreignId('avalability_id')->constrained('avalabilities');
+            $table->foreignId('availability_id')->constrained('availabilities');
 
             $table->foreignId('application_status_id')->constrained('application_statuses');
 
