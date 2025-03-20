@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\SerializesDatetimes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Education extends Model
 {
+    use SerializesDatetimes;
+
     protected $table = 'educations';
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
@@ -19,7 +22,7 @@ class Education extends Model
     ];
 
     // Accesors for date only fields
-    
+
     public function getStartDateAttribute($value)
     {
         return $value ? Carbon::parse($value)->translatedFormat('j \\d\\e F \\d\\e Y') : null;

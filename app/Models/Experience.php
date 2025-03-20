@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\SerializesDatetimes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Experience extends Model
 {
+    use SerializesDatetimes;
+
     protected $table = 'experiences';
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
