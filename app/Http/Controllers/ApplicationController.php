@@ -19,16 +19,9 @@ class ApplicationController extends Controller
     {
         $perPage = request()->query('per_page', 10); // Número de elementos por página (por defecto: 10)
 
-        $applications = Application::with([
-            'employmentType',
-            'availability',
-            'applicationStatus',
-            'workModality',
-            'educations',
-            'experiences',
-        ])->paginate($perPage);
+        $applications = $this->applicationService->listApplications($perPage);
 
-        return response()->json($applications);
+        return response()->json($applications, 200);
     }
 
     /**

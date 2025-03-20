@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Application;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -10,11 +11,18 @@ use Smalot\PdfParser\Parser;
 
 class ApplicationService
 {
-    public function listApplications(int $per_page) {
-
+    public function listApplications(int $perPage): LengthAwarePaginator {
+        return Application::with([
+            'employmentType',
+            'availability',
+            'applicationStatus',
+            'workModality',
+            'educations',
+            'experiences',
+        ])->paginate($perPage);
     }
 
-    public function createApplication(array $data, $cvFile)
+    public function createApplication(array $data, $cvFile): Application
     {
         try {
             DB::beginTransaction();
