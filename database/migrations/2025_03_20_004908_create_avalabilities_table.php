@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('avalabilities', function (Blueprint $table) {
             $table->id();
+            $table->string('availability_name');
+            $table->string('availability_code');
             $table->timestamps();
         });
     }

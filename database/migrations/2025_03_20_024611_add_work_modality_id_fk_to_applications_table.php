@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employment_types', function (Blueprint $table) {
-            $table->id();
-            $table->string('employment_type_name');
-            $table->string('employment_type_code');
-            $table->timestamps();
+        Schema::table('applications', function (Blueprint $table) {
+            $table->foreignId('work_modality_id')->constrained('work_modalities');
         });
     }
 
@@ -24,6 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employment_types');
+        Schema::table('applications', function (Blueprint $table) {
+            $table->dropForeign(['work_modality_id']);
+            $table->dropColumn('work_modality_id');
+        });
     }
 };

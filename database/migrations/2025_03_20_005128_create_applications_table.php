@@ -13,6 +13,29 @@ return new class extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
+            $table->string('job_title');
+            $table->string('company_name');
+            $table->foreignId('employement_type_id')->constrained('employement_types');
+
+            $table->string('applicant_names');
+            $table->string('applicant_last_names');
+            $table->string('applicant_email');
+            $table->string('applicant_phone');
+            $table->string('applicant_linkedin')->nullable();
+            $table->string('applicant_portfolio_link')->nullable();
+            $table->string('applicant_country');
+            $table->string('applicant_city');
+            $table->string('applicant_address');
+            $table->string('cv_path');
+            $table->integer('cv_pages_count');
+
+            $table->decimal('monthly_expected_salary', 12, 2);
+            $table->foreignId('avalability_id')->constrained('avalabilities');
+
+            $table->foreignId('application_status_id')->constrained('application_statuses');
+
+            $table->string('ip_address')->nullable();
+            $table->text('user_agent')->nullable();
             $table->timestamps();
         });
     }
