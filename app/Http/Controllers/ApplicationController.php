@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Application;
 use App\Http\Requests\StoreApplicationRequest;
 use App\Services\ApplicationService;
+use Illuminate\Support\Facades\Storage;
 
 class ApplicationController extends Controller
 {
@@ -37,5 +38,21 @@ class ApplicationController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error: could not create application record'], 500);
         }
+    }
+
+    public function downloadCv(Application $application)
+    {
+        // Get the file's absolute path
+        $path = Storage::path($application->cv_path);
+
+        // Verify file's existance
+        if (!file_exists($path)) {
+            return response()->json(['error' => 'Archivo no encontrado'], 404);
+        }
+
+        $file_name = "CV " . $application->applicant_names . ' ' . $application->applicant_last_names . '.pdf';
+
+        // Download the file
+        return response()->download($path, $file_name);
     }
 }

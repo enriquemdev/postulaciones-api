@@ -11,8 +11,9 @@ use Smalot\PdfParser\Parser;
 
 class ApplicationService
 {
-    public function listApplications(int $perPage): LengthAwarePaginator {
-        return Application::with([
+    public function listApplications(int $perPage): LengthAwarePaginator
+    {
+        $applications = Application::with([
             'employmentType',
             'availability',
             'applicationStatus',
@@ -20,6 +21,14 @@ class ApplicationService
             'educations',
             'experiences',
         ])->paginate($perPage);
+
+        // Add a download cv url to each application
+        $applications->getCollection()->transform(function ($application) {
+            $application->cv_download_url = route('applications.cv.download', ['application' => $application->id]);
+            return $application;
+        });
+
+        return $applications;
     }
 
     public function createApplication(array $data, $cvFile): Application
@@ -28,6 +37,11 @@ class ApplicationService
             DB::beginTransaction();
 
             $cvPath = $cvFile->store('cvs');
+            // $file = request()->file('file');
+            // $fileName = time() . '_' . $file->getClientOriginalName();
+            // $cvPath = Storage::disk('cvs')->putFileAs('', $file, $fileName);
+
+            // Log::info($fileName);
 
             $pdfParser = new Parser();
             $pdf = $pdfParser->parseFile(Storage::path($cvPath));
