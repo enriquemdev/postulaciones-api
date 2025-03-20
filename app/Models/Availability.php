@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Avalability extends Model
+class Availability extends Model
 {
     //
 }
