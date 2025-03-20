@@ -44,7 +44,7 @@ class StoreApplicationRequest extends FormRequest
             'educations.*.education_institution' => ['required', 'string', 'max:255'],
             'educations.*.start_date' => ['required', 'date'],
             'educations.*.end_date' => ['nullable', 'date', 'after_or_equal:educations.*.start_date'],
-            'educations.*.is_ongoing' => ['required', 'boolean'],
+            'educations.*.is_ongoing' => ['required', 'in:0,1'],
             'experiences' => ['required', 'array', 'min:1'],
             'experiences.*.company_name' => ['required', 'string', 'max:255'],
             'experiences.*.job_title' => ['required', 'string', 'max:255'],
@@ -52,7 +52,7 @@ class StoreApplicationRequest extends FormRequest
             'experiences.*.end_date' => ['nullable', 'date', 'after_or_equal:experiences.*.start_date'],
             'experiences.*.description' => ['nullable', 'string'],
             'experiences.*.location' => ['nullable', 'string', 'max:255'],
-            'experiences.*.is_current_job' => ['required', 'boolean'],
+            'experiences.*.is_current_job' => ['required', 'in:0,1'],
         ];
     }
 
@@ -138,7 +138,7 @@ class StoreApplicationRequest extends FormRequest
             'educations.*.end_date.after_or_equal' => 'La fecha de fin de la educación debe ser igual o posterior a la fecha de inicio.',
 
             'educations.*.is_ongoing.required' => 'El campo "en curso" es obligatorio.',
-            'educations.*.is_ongoing.boolean' => 'El campo "en curso" debe ser verdadero o falso.',
+            'educations.*.is_ongoing.in' => 'El campo "en curso" debe ser 0 o 1.',
 
             'experiences.required' => 'La información de experiencia laboral es obligatoria.',
             'experiences.array' => 'La información de experiencia laboral debe ser un arreglo.',
@@ -164,7 +164,7 @@ class StoreApplicationRequest extends FormRequest
             'experiences.*.location.max' => 'La ubicación de la experiencia laboral no debe exceder los 255 caracteres.',
 
             'experiences.*.is_current_job.required' => 'El campo "trabajo actual" es obligatorio.',
-            'experiences.*.is_current_job.boolean' => 'El campo "trabajo actual" debe ser verdadero o falso.',
+            'experiences.*.is_current_job.in' => 'El campo "trabajo actual" debe ser  ser 0 o 1.',
         ];
     }
 }

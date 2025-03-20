@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Models\Application;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Smalot\PdfParser\Parser;
 
 class ApplicationService
 {
@@ -14,7 +16,11 @@ class ApplicationService
             DB::beginTransaction();
 
             $cvPath = $cvFile->store('cvs');
-            
+
+            $pdfParser = new Parser();
+            $pdf = $pdfParser->parseFile(Storage::path($cvPath));
+            $pages_qty = count($pdf->getPages());
+
             $application = Application::create([
                 'job_title' => $data['job_title'],
                 'company_name' => $data['company_name'],
@@ -28,16 +34,14 @@ class ApplicationService
                 'applicant_country' => $data['applicant_country'],
                 'applicant_city' => $data['applicant_city'],
                 'applicant_address' => $data['applicant_address'],
-
                 'cv_path' => $cvPath,
-                'cv_pages_count' => 0,
-
+                'cv_pages_count' => $pages_qty,
                 'monthly_expected_salary' => $data['monthly_expected_salary'],
                 'availability_id' => $data['availability_id'],
                 'application_status_id' => 1,
                 'ip_address' => request()->ip(),
                 'user_agent' => request()->userAgent(),
-                'work_modality_id' => $data['work_modality_id']
+                'work_modality_id' => $data['work_modality_id'],
             ]);
 
             // Create education records

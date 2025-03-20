@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Application;
 use App\Http\Requests\StoreApplicationRequest;
-use App\Http\Requests\UpdateApplicationRequest;
 use App\Services\ApplicationService;
 
 class ApplicationController extends Controller
@@ -18,7 +17,7 @@ class ApplicationController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(['message' => 'jola'], 201);
     }
 
     /**
@@ -26,7 +25,7 @@ class ApplicationController extends Controller
      */
     public function store(StoreApplicationRequest $request)
     {
-        $validated = $request->validated;
+        $validated = $request->validated();
 
         try {
             $application = $this->applicationService->createApplication($validated, $request->file('cv'));
