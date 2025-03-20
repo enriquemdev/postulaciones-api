@@ -4,13 +4,16 @@ namespace App\Services;
 
 use App\Models\Application;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ApplicationService
 {
-    public function createApplication(array $data)
+    public function createApplication(array $data, $cvFile)
     {
         try {
             DB::beginTransaction();
+
+            $cvPath = $cvFile->store('cvs');
             
             $application = Application::create([
                 'job_title' => $data['job_title'],
@@ -25,6 +28,10 @@ class ApplicationService
                 'applicant_country' => $data['applicant_country'],
                 'applicant_city' => $data['applicant_city'],
                 'applicant_address' => $data['applicant_address'],
+
+                'cv_path' => $cvPath,
+                'cv_pages_count' => 0,
+
                 'monthly_expected_salary' => $data['monthly_expected_salary'],
                 'availability_id' => $data['availability_id'],
                 'application_status_id' => 1,
@@ -48,6 +55,7 @@ class ApplicationService
             return $application;
         } catch (\Exception $e) {
             DB::rollBack();
+            Log::error('Error creating application: ' . $e->getMessage());
             throw $e;
         }
     }
