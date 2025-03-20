@@ -17,50 +17,17 @@ class ApplicationController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreApplicationRequest $request)
     {
-        //
-    }
+        $validated = $request->validated;
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Application $application)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Application $application)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateApplicationRequest $request, Application $application)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Application $application)
-    {
-        //
+        try {
+            $application = null;
+            return response()->json($application, 201);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error: could not create application record'], 500);
+        }
     }
 }
