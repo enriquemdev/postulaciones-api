@@ -18,14 +18,21 @@ class Education extends Model
         'is_ongoing' => 'boolean',
     ];
 
-    /**
-     * Prepare a date for array / JSON serialization.
-     */
-    protected function serializeDate(\DateTimeInterface $date): string
+    // Accesors for date only fields
+    
+    public function getStartDateAttribute($value)
     {
-        return Carbon::parse($date)->formatLocalized('%e de %B del %Y');
+        return $value ? Carbon::parse($value)->translatedFormat('j \\d\\e F \\d\\e Y') : null;
+    }
+
+    public function getEndDateAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->translatedFormat('j \\d\\e F \\d\\e Y') : null;
     }
     
+
+    // Relations
+
     public function applications(): BelongsTo
     {
         return $this->belongsTo(Application::class, 'application_id');
