@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Application;
 use App\Http\Requests\StoreApplicationRequest;
 use App\Http\Requests\UpdateApplicationRequest;
+use App\Services\ApplicationService;
 
 class ApplicationController extends Controller
 {
+    public function __construct(protected ApplicationService $applicationService)
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -24,7 +29,7 @@ class ApplicationController extends Controller
         $validated = $request->validated;
 
         try {
-            $application = null;
+            $application = $this->applicationService->createApplication($validated, $request->file('cv'));
             return response()->json($application, 201);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error: could not create application record'], 500);
