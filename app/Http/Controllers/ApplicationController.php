@@ -17,7 +17,18 @@ class ApplicationController extends Controller
      */
     public function index()
     {
-        return response()->json(['message' => 'jola'], 201);
+        $perPage = request()->query('per_page', 10); // Número de elementos por página (por defecto: 10)
+
+        $applications = Application::with([
+            'employmentType',
+            'availability',
+            'applicationStatus',
+            'workModality',
+            'educations',
+            'experiences',
+        ])->paginate($perPage);
+
+        return response()->json($applications);
     }
 
     /**

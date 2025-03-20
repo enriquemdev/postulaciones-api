@@ -10,6 +10,10 @@ use Smalot\PdfParser\Parser;
 
 class ApplicationService
 {
+    public function listApplications(int $per_page) {
+
+    }
+
     public function createApplication(array $data, $cvFile)
     {
         try {
