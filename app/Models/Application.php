@@ -10,7 +10,7 @@ class Application extends Model
 {
     protected $table = 'applications';
 
-    protected $guarded = ['id', 'created_at', 'updated_at', 'cv_path', 'cv_pages_count', 'ip_address', 'user_agent', 'application_status_id'];
+    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     protected $casts = [
         'monthly_expected_salary' => 'float',
