@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Application;
 use App\Http\Requests\StoreApplicationRequest;
+use App\Models\ApplicationStatus;
+use App\Models\Availability;
+use App\Models\EmploymentType;
+use App\Models\WorkModality;
 use App\Services\ApplicationService;
 use Illuminate\Support\Facades\Storage;
 
@@ -54,5 +58,21 @@ class ApplicationController extends Controller
 
         // Download the file
         return response()->download($path, $file_name);
+    }
+
+    public function getEmploymentTypes () {
+        return EmploymentType::select('id', 'employment_type_name', 'employment_type_code')->get();
+    }
+
+    public function getApplicationStatuses () {
+        return ApplicationStatus::select('id', 'application_status_name', 'application_status_code')->get();
+    }
+
+    public function getWorkModalities () {
+        return WorkModality::select('id', 'work_mdality_name', 'work_modality_code')->get();
+    }
+
+    public function getAvailabilities () {
+        return Availability::select('id', 'availability_name', 'availability_code')->get();
     }
 }
