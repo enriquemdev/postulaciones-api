@@ -61,18 +61,18 @@ class ApplicationController extends Controller
     }
 
     public function getEmploymentTypes () {
-        return EmploymentType::select('id', 'employment_type_name', 'employment_type_code')->get();
+        return EmploymentType::select('id', 'employment_type_name as name', 'employment_type_code as code')->get();
     }
 
     public function getApplicationStatuses () {
-        return ApplicationStatus::select('id', 'application_status_name', 'application_status_code')->get();
+        return ApplicationStatus::select('id', 'application_status_name as name', 'application_status_code as code')->get();
     }
 
     public function getWorkModalities () {
-        return WorkModality::select('id', 'work_mdality_name', 'work_modality_code')->get();
+        return WorkModality::select('id', 'work_modality_name as name', 'work_modality_code as code')->get();
     }
 
     public function getAvailabilities () {
-        return Availability::select('id', 'availability_name', 'availability_code')->get();
+        return Availability::select('id', 'availability_name as name', 'availability_code as code')->get();
     }
 }
