@@ -36,7 +36,7 @@ class StoreApplicationRequest extends FormRequest
             'applicant_city' => ['required', 'string', 'max:255'],
             'applicant_address' => ['required', 'string', 'max:255'],
             'cv' => ['required', 'file', 'mimes:pdf', 'max:51200'], // 50MB max
-            'monthly_expected_salary' => ['required', 'regex:/^\d+(\.\d{1,2})?$/', 'min:0'],
+            'monthly_expected_salary' => ['required', 'regex:/^\d+(\.\d{1,2})?$/', 'min:0', 'max:9999999999.99'],
             'availability_id' => ['required', Rule::exists('availabilities', 'id')],
             'work_modality_id' => ['required', Rule::exists('work_modalities', 'id')],
             'educations' => ['required', 'array', 'min:1'],
