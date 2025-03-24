@@ -51,8 +51,8 @@ cp .env.example .env
 # 4. Generar clave
 php artisan key:generate
 
-# 5. Ejecutar migraciones
-php artisan migrate
+# 5. Ejecutar migraciones y seeders
+php artisan migrate --seed
 
 # 6. Iniciar servidor
 php artisan serve
