@@ -10,6 +10,7 @@ use App\Models\EmploymentType;
 use App\Models\WorkModality;
 use App\Services\ApplicationService;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
 class ApplicationController extends Controller
 {
@@ -20,11 +21,43 @@ class ApplicationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $perPage = request()->query('per_page', 10); // Número de elementos por página (por defecto: 10)
+        // Pagination parameters
+        $page = (int) $request->query('page', 1); // Default to page 1, cast to int
+        $perPage = (int) $request->query('page_size', 10); // Default to 10 items per page, cast to int
 
-        $applications = $this->applicationService->listApplications($perPage);
+        // Filter parameters
+        $filters = [];
+        $filterInputs = $request->query('filters', []);
+        foreach ($filterInputs as $index => $filter) {
+            if (isset($filter['field'], $filter['operator'], $filter['value'])) {
+                $filters[] = [
+                    'field' => $filter['field'],
+                    'operator' => $filter['operator'],
+                    'value' => $filter['value'],
+                ];
+            }
+        }
+
+        // Sort parameters
+        $sorts = [];
+        $sortInputs = $request->query('sort', []);
+        foreach ($sortInputs as $index => $sort) {
+            if (isset($sort['field'], $sort['direction'])) {
+                $sorts[] = [
+                    'field' => $sort['field'],
+                    'direction' => $sort['direction'],
+                ];
+            }
+        }
+
+        // Fetch applications with pagination, filters, and sorting
+        try {
+            $applications = $this->applicationService->listApplications($page, $perPage, $filters, $sorts);
+        } catch (\Exception) {
+            return response()->json(['message' => 'An error ocurred while trying to get the data'], 500);
+        }
 
         return response()->json($applications, 200);
     }
