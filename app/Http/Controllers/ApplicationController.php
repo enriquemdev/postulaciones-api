@@ -75,4 +75,27 @@ class ApplicationController extends Controller
     public function getAvailabilities () {
         return Availability::select('id', 'availability_name as name', 'availability_code as code')->get();
     }
+
+    public function markAsSeen($id)
+    {
+        $application = Application::find($id);
+
+        if (!$application) {
+            return response()->json(['message' => 'Solicitud no encontrada'], 404);
+        }
+
+        if ($application->applicationStatus->application_status_code !== 'sent') {
+            return response()->json(['message' => 'La solicitud ya ha sido vista o no está en estado enviado'], 400);
+        }
+
+        $application_status_code = ApplicationStatus::where('application_status_code', 'seen')->first();
+
+        $application->application_status_id = $application_status_code->id;
+        $application->save();
+
+        return response()->json([
+            'message' => 'Solicitud marcada como vista',
+            'application' => $application
+        ], 200);
+    }
 }

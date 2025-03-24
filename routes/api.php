@@ -12,3 +12,5 @@ Route::get('/application_statuses', [ApplicationController::class, 'getApplicati
 Route::get('/employment_types', [ApplicationController::class, 'getEmploymentTypes'])->name('employment_types.index');
 Route::get('/availabilities', [ApplicationController::class, 'getAvailabilities'])->name('availabilities.index');
 Route::get('/work_modalities', [ApplicationController::class, 'getWorkModalities'])->name('work_modalities.index');
+
+Route::patch('/applications/{id}/mark-as-seen', [ApplicationController::class, 'markAsSeen']);
