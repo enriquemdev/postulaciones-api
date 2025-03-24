@@ -39,7 +39,7 @@ API robusta para gestión de postulaciones laborales con almacenamiento y recupe
 ```bash
 # 1. Clonar repositorio
 git clone https://github.com/enriquemdev/postulaciones-api.git
-cd postulaciones-app-backend
+cd postulaciones-api
 
 # 2. Instalar dependencias
 composer install
